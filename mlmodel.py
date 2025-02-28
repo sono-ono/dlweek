@@ -5,6 +5,7 @@ from gradio_client import Client, handle_file
 # 'confidences': [{'label': 'No face detected!', 'confidence': 1.0}]}, None)
 
 def image(file):
+    print(file)
     config = dotenv.dotenv_values("env")
     HF_token = config["hf_access_token"]
     client = Client("dlweekproj/deepfakedetection", hf_token=HF_token)
@@ -16,6 +17,7 @@ def image(file):
     return result
 
 def video(file):
+    print(file)
     config = dotenv.dotenv_values("env")
     HF_token = config["hf_access_token"]
     client = Client("dlweekproj/deepfakedetection", hf_token=HF_token)
@@ -25,5 +27,3 @@ def video(file):
 	    api_name="/predict_video"
     )
     return result
-
-print(image("pics/faketrump.png"))
