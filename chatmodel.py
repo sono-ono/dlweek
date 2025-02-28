@@ -1,25 +1,26 @@
 from google import genai
-from google.genai.types import Tool, GenerateContentConfig, GoogleSearch
+import dotenv
+import time 
 
-def reason(prompt):
-    client = genai.Client()
-    model_id = "gemini-2.0-flash"
+def reason(prompt, file_path):
+    config = dotenv.dotenv_values("env")
+    client = genai.Client(api_key=config["gemini_token"])
+    video_file = client.files.upload(file=file_path)
 
-    google_search_tool = Tool(
-        google_search = GoogleSearch()
-    )
-
+    while video_file.state.name == "PROCESSING":
+        print('.', end='')
+        time.sleep(1)
+        video_file = client.files.get(name=video_file.name)
+    
     response = client.models.generate_content(
-        model=model_id,
-        contents=prompt,
-        config=GenerateContentConfig(
-            tools=[google_search_tool],
-            response_modalities=["TEXT"],
-        )
+        model = "gemini-1.5-pro",
+        contents = [
+            video_file,
+            prompt
+        ]
     )
-    output = []
-    for each in response.candidates[0].content.parts:
-        output.append(each)
 
-    output.append(response.candidates[0].grounding_metadata.search_entry_point.rendered_content)
-    return output
+    return response.text
+
+# test
+# print(reason("Summarise this video", "pics/world.mp4"))

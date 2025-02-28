@@ -56,16 +56,13 @@ def deepfake(file):
                 output = "This is probably real!", step1[0]["confidences"]
             else:
                 resp_code, accuracy, name = recognition_api.test_api(file)
-                output = chatmodel.reason(reasoning(True, name))
+                output = chatmodel.reason(reasoning(True, name), file)
         case "No face detected!":
             output = "There doesn't appear to be a face in the source media..."
 
     return output
                 
         
-
-            
-
 def analysis(text):
     return f"Text analysis result: The input text is '{text}'."
 
