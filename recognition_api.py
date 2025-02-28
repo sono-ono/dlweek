@@ -2,11 +2,13 @@ import base64
 import json
 import requests
 import sys
+import dotenv
+
+config = dotenv.dotenv_values("env")
 
 
 def test_api(image_path):
-    with open("env", "r") as f:
-        API_URL = f.read()
+    API_URL = config["test_api_url"]
 
     # Read and encode the image to base64
     with open(image_path, "rb") as image_file:
@@ -19,7 +21,9 @@ def test_api(image_path):
     # Send POST request
     response = requests.post(API_URL, headers=headers, data=payload)
     
-    return response.status_code, response.json()
+    res = response.json()
+    print(response.status_code, res["UserMatches"][0]["Similarity"], res["UserMatches"][0]["User"]["UserId"])
+    return response.status_code, res["UserMatches"][0]["Similarity"], res["UserMatches"][0]["User"]["UserId"]
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
