@@ -75,29 +75,22 @@ def deepfake(file):
     return output
                 
 
-
-def analysis(text):
-    return f"Text analysis result: The input text is '{text}'."
-
-def process_input(text, file):
-    if text:  
-        output = analysis(text)
-    elif file:  
+def process_input(file):
+    if file:  
         output = deepfake(file)
     else:
-        output = "Please provide either text or a file."
+        output = "Please provide a file for analysis."
     return output
 
 interface = gr.Interface(
     fn=process_input,
     inputs=[
-        gr.Textbox(label="Enter text for analysis", lines=2, placeholder="Type here..."),
         gr.UploadButton(label="Upload Image or Video", file_types=["image", "video"])
     ],
     outputs=gr.Textbox(label="Result"),
     live=False,
-    title="Deepfake & Text Analysis",
-    description="Upload an image/video for deepfake detection or enter text for analysis."
+    title="Deepfake Analysis",
+    description="Upload an image/video for deepfake detection."
 )
 
 # Launch the interface
