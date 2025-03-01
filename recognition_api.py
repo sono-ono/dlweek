@@ -22,8 +22,11 @@ def test_api(image_path):
     response = requests.post(API_URL, headers=headers, data=payload)
     
     res = response.json()
-    print(response.status_code, res["UserMatches"][0]["Similarity"], res["UserMatches"][0]["User"]["UserId"])
-    return response.status_code, res["UserMatches"][0]["Similarity"], res["UserMatches"][0]["User"]["UserId"]
+    try:
+        result = response.status_code, res["UserMatches"][0]["Similarity"], res["UserMatches"][0]["User"]["UserId"]
+    except IndexError:
+        result = 404, 0, "unidentified"
+    return result
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
