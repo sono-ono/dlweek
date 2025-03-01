@@ -1,8 +1,38 @@
-# ignores virtual env
-
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 .venv/
-env
+env/
 .env
+env
+.gradio/
+test_video_processing.py
+
+# React
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage
+frontend/build
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Uploads
+uploads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ignores virtual env
 pics/
 testing/
-__pycache__/

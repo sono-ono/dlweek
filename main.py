@@ -45,7 +45,13 @@ def deepfake(file):
     if file.name.endswith((".jpg", ".jpeg", ".png")):
         step1 = mlmodel.image(file)
     elif file.name.endswith((".mp4", ".mov", ".avi")):
-        step1 = mlmodel.video(file)
+        print(f"[DEBUG] Using video_by_frames function for: {file.name}")
+        step1_result = mlmodel.video_by_frames(file, max_frames=5)
+        
+        if not isinstance(step1_result, tuple):
+            step1 = (step1_result, None)
+        else:
+            step1 = step1_result
     else:
         return f"Unsupported file type: {file.name}"
 
